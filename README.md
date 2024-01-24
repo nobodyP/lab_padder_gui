@@ -3,6 +3,7 @@ A python tool to pad a specific amount of time at the beginning and end of an NN
 
 ## How to use:
 ```
+pip install -U click
 python lab_padder.py -d {path_to_labs}
 ```
 
