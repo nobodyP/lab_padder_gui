@@ -2,6 +2,8 @@ import os, glob
 import click
 from pathlib import Path
 
+# this program was made by TigerMeat <3
+
 @click.command()
 @click.option('--time', default=5000000, help='Time to pad labels')
 @click.option('--phoneme', default='SP', help='Phoneme to use for padded silence')
