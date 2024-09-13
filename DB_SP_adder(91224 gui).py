@@ -1,12 +1,64 @@
 import os
 import ffmpeg
+import tkinter
+from tkinter import PhotoImage
+from tkinter import filedialog
+from tkinter import ttk
+
+#################################################################################### --- setting up interface
+
+root = tkinter.Tk()
+root.title("menKissing")
+root.geometry("400x200+0+0")
+root.resizable(False, False)
 
 # Get the directory where the script is located
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Construct relative paths based on the script directory
-input_folder = os.path.join(script_dir, 'Lab_and_Wav')
-output_folder = os.path.join(script_dir, 'Output')
+# start condition, when you press start button this turns true and lets the program finish
+start = tkinter.BooleanVar(value=False)
+
+# background =)
+bg = PhotoImage(file = (f"{script_dir}\\_assets\\bg.png"))
+missing = PhotoImage(file = (f"{script_dir}\\_assets\\missing.png"))
+
+canvas1 = tkinter.Canvas(root, width = 400, height = 400)
+canvas1.pack(fill = "both", expand = True)
+canvas1.create_image(0, 0, image = bg, anchor = "nw")
+canvas1.create_image(400, 0, image = missing, anchor = "ne") 
+
+def disable():
+    pass
+root.protocol('WM_DELETE_WINDOW', disable)
+
+def egress():
+    os._exit(0)
+
+def askfor_inp():
+    global input_folder
+    input_folder = filedialog.askdirectory(initialdir="/", title="Select input directory")
+
+def askfor_out():
+    global output_folder
+    output_folder = filedialog.askdirectory(initialdir="/", title="Select output directory")
+
+
+start_button = ttk.Button(root, text="Start Program", width=20, command=lambda: start.set(True))
+exit_button = ttk.Button(root, text="Exit", command=lambda: egress())
+inp_button = ttk.Button(root, text="select input dir", command=lambda: askfor_inp())
+out_button = ttk.Button(root, text="select output dir", command=lambda: askfor_out())
+
+
+start_button.place(x=20, y=20)
+exit_button.place(x=150, y=20)
+inp_button.place(x=20, y=60)
+out_button.place(x=150, y=60)
+
+root.wait_variable(start)
+
+####################################################################################
+
+
 
 blank_file = os.path.join(script_dir, "blank.wav")
 
@@ -50,6 +102,6 @@ if os.path.exists(concat_list_file):
 # Run the additional script with relative paths
 print("Now for the labels...")
 
-os.system(f"python lab_padder.py -d {input_folder} -o {output_folder}")
+os.system(f"python {script_dir}\lab_padder.py -d {input_folder} -o {output_folder}")
 
 print("Done!")
